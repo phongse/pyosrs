@@ -1,6 +1,3 @@
-from .models import Skills
-
-
 def base(defence: int, hitpoints: int, prayer: int) -> float:
     return (1 / 4) * (defence + hitpoints + int(prayer * 0.5))
 
