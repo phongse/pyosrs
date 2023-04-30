@@ -6,5 +6,6 @@ class InvalidUserException(Exception):
 
 class InvalidAPIResponseException(Exception):
     def __init__(self):
-        self.message = "A new skill/boss/activity has been added to Oldschool Runescape, and Pyosrs needs to be updated"
+        self.message = "A new skill/boss/activity has been added to Oldschool \
+            Runescape, and Pyosrs needs to be updated"
         super().__init__(self.message)

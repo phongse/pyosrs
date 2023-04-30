@@ -92,4 +92,4 @@ make precommit
 
 ## License
 
-pyosrs is licensed under the GNU Lesser General Public License. See [LICENSE](https://github.com/phongse/pyosrs-test/blob/main/LICENSE).
+pyosrs is licensed under the GNU Lesser General Public License. See [LICENSE](https://github.com/phongse/pyosrs/blob/main/LICENSE).

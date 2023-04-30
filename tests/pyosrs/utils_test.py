@@ -1,7 +1,6 @@
 import pytest
 
 from pyosrs.utils import calc_combat_level
-from testing.factories import HiscoreFactory
 
 
 @pytest.mark.parametrize(

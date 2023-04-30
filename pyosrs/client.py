@@ -47,14 +47,16 @@ class Pyosrs:
 
         Args:
             username (str): The username of the player to retrieve hiscore for.
-            game_mode (GAME_MODE, optional): The game mode to retrieve hiscore for. Defaults to GAME_MODE.MAIN.
+            game_mode (GAME_MODE, optional): The game mode to retrieve hiscore
+            for. Defaults to GAME_MODE.MAIN.
 
         Returns:
             Hiscore: The parsed hiscore data for the given username and game mode.
 
         Raises:
             InvalidUserException: If the given username is invalid.
-            InvalidAPIResponseException: If there is a new type of hiscore data response that hasn't been accounted for.
+            InvalidAPIResponseException: If there is a new type of hiscore data
+            response that hasn't been accounted for.
         """
 
         try:
@@ -108,13 +110,16 @@ class Pyosrs:
 
     async def get_game_mode(self, username: str) -> Tuple[GAME_MODE, Hiscore]:
         """
-        Determines the game mode of a given username by comparing the experience levels across different modes using the hiscore API.
+        Determines the game mode of a given username by comparing the experience
+        levels across different modes using the hiscore API.
 
         Args:
             username (str): The username to search.
 
         Returns:
-            A tuple containing the game mode and the corresponding Hiscore object representing the player's stats in that mode. The game mode can be one of the following:
+            A tuple containing the game mode and the corresponding Hiscore object
+            representing the player's stats in that mode. The game mode can be one
+            of the following:
 
             - GAME_MODE.MAIN: Main mode
             - GAME_MODE.IRONMAN: Ironman mode
@@ -122,7 +127,8 @@ class Pyosrs:
             - GAME_MODE.ULTIMATE: Ultimate mode
 
         Raises:
-            InvalidUserException: If the hiscore API returns an error or no hiscore data is found for the given username.
+            InvalidUserException: If the hiscore API returns an error or no
+            hiscore data is found for the given username.
         """
 
         game_modes = [
@@ -140,10 +146,9 @@ class Pyosrs:
             try:
                 hiscore = await asyncio.shield(task)
                 hiscores[hiscore.game_mode] = hiscore
-            except:
+            except:  # noqa: E722
                 pass
 
-        print(hiscores)
         if not hiscores:
             raise InvalidUserException(username)
 
