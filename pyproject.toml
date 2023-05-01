@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyosrs"
-version = "0.0.2"
+version = "0.0.3"
 description = "A Python library for Oldschool RuneScape."
 authors = ["Phong Tran"]
 repository = "https://github.com/phongse/pyosrs"
