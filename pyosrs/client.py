@@ -153,13 +153,15 @@ class Pyosrs:
             raise InvalidUserException(username)
 
         if GAME_MODE.MAIN in hiscores:
-            if (
+            if GAME_MODE.IRONMAN not in hiscores or (
                 GAME_MODE.IRONMAN in hiscores
                 and hiscores[GAME_MODE.IRONMAN].skills.overall.experience
                 < hiscores[GAME_MODE.MAIN].skills.overall.experience
             ):
                 return GAME_MODE.MAIN, hiscores[GAME_MODE.MAIN]
 
+        # We want to ensure that the user has an ironman hiscore entry
+        # in case they don't meet the requirements to be on the main hiscore
         if GAME_MODE.IRONMAN not in hiscores:
             raise InvalidUserException(username)
 
