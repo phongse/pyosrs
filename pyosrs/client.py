@@ -1,5 +1,5 @@
 import asyncio
-from typing import Tuple
+from typing import Tuple, Dict
 
 import httpx
 
@@ -64,10 +64,10 @@ class Pyosrs:
         except httpx.HTTPStatusError:
             raise InvalidUserException(username)
 
-        skills: dict[str, Skill] = {}
-        minigames: dict[str, Minigame] = {}
-        clues: dict[str, Minigame] = {}
-        bosses: dict[str, Minigame] = {}
+        skills: Dict[str, Skill] = {}
+        minigames: Dict[str, Minigame] = {}
+        clues: Dict[str, Minigame] = {}
+        bosses: Dict[str, Minigame] = {}
 
         if len(lines := response.text.splitlines()) != HISCORE_RESPONSE_LEN:
             raise InvalidAPIResponseException
