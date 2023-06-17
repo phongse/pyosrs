@@ -18,7 +18,7 @@ To retrieve the hiscore for a player, you can create a Pyosrs instance and use i
 
 ```python
 import asyncio
-from pyosrs import Pyosrs
+from pyosrs.client import Pyosrs
 from pyosrs.enums import GAME_MODE
 
 async def main():
