@@ -45,13 +45,8 @@ class Minigames(BaseModel):
     league_points: Minigame = Minigame()
     bounty_hunter_hunter: Minigame = Minigame()
     bounty_hunter_rogue: Minigame = Minigame()
-    lms: Minigame = Minigame()
-    pvp_arena: Minigame = Minigame()
-    soul_wars: Minigame = Minigame()
-    rifts_closed: Minigame = Minigame()
-
-
-class Clues(BaseModel):
+    bounty_hunter_hunter_legacy: Minigame = Minigame()
+    bounty_hunter_rogue_legacy: Minigame = Minigame()
     all: Minigame = Minigame()
     beginner: Minigame = Minigame()
     easy: Minigame = Minigame()
@@ -59,6 +54,10 @@ class Clues(BaseModel):
     hard: Minigame = Minigame()
     elite: Minigame = Minigame()
     master: Minigame = Minigame()
+    lms: Minigame = Minigame()
+    pvp_arena: Minigame = Minigame()
+    soul_wars: Minigame = Minigame()
+    rifts_closed: Minigame = Minigame()
 
 
 class Bosses(BaseModel):
@@ -123,5 +122,4 @@ class Hiscore(BaseModel):
     combat_level: int
     skills: Skills
     minigames: Minigames
-    clues: Clues
     bosses: Bosses
