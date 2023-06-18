@@ -46,6 +46,13 @@ MINIGAMES_INDEX: Final[Dict[int, Tuple[str, str]]] = {
     26: ("bounty_hunter_rogue", "Bounty Hunter - Rogue"),
     27: ("bounty_hunter_hunter_legacy", "Bounty Hunter (Legacy) - Hunter"),
     28: ("bounty_hunter_rogue_legacy", "Bounty Hunter (Legacy) - Rogue"),
+    36: ("lms", "LMS"),
+    37: ("pvp_arena", "PvP Arena"),
+    38: ("soul_wars", "Soul Wars Zeal"),
+    39: ("rifts_closed", "Rifts Closed"),
+}
+
+CLUES_INDEX: Final[Dict[int, Tuple[str, str]]] = {
     29: ("clue_scrolls_all", "Clue Scrolls All"),
     30: ("clue_scrolls_beginner", "Clue Scrolls Beginner"),
     31: ("clue_scrolls_easy", "Clue Scrolls Easy"),
@@ -53,10 +60,6 @@ MINIGAMES_INDEX: Final[Dict[int, Tuple[str, str]]] = {
     33: ("clue_scrolls_hard", "Clue Scrolls Hard"),
     34: ("clue_scrolls_elite", "Clue Scrolls Elite"),
     35: ("clue_scrolls_master", "Clue Scrolls Master"),
-    36: ("lms", "LMS"),
-    37: ("pvp_arena", "PvP Arena"),
-    38: ("soul_wars", "Soul Wars Zeal"),
-    39: ("rifts_closed", "Rifts Closed"),
 }
 
 BOSSES_INDEX: Final[Dict[int, Tuple[str, str]]] = {
@@ -120,5 +123,5 @@ BOSSES_INDEX: Final[Dict[int, Tuple[str, str]]] = {
 }
 
 HISCORE_RESPONSE_LEN: Final[int] = (
-    len(SKILLS_INDEX) + len(MINIGAMES_INDEX) + len(BOSSES_INDEX)
+    len(SKILLS_INDEX) + len(MINIGAMES_INDEX) + len(CLUES_INDEX) + len(BOSSES_INDEX)
 )

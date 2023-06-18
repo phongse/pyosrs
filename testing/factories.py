@@ -1,7 +1,7 @@
 import factory
 
 from pyosrs.enums import GAME_MODE
-from pyosrs.models import Bosses, Hiscore, Minigame, Minigames, Skill, Skills
+from pyosrs.models import Bosses, Clues, Hiscore, Minigame, Minigames, Skill, Skills
 
 
 class SkillFactory(factory.Factory):
@@ -60,6 +60,16 @@ class MinigamesFactory(factory.Factory):
     bounty_hunter_rogue = MinigameFactory()
     bounty_hunter_hunter_legacy = MinigameFactory()
     bounty_hunter_rogue_legacy = MinigameFactory()
+    lms = MinigameFactory()
+    pvp_arena = MinigameFactory()
+    soul_wars = MinigameFactory()
+    rifts_closed = MinigameFactory()
+
+
+class CluesFactory(factory.Factory):
+    class Meta:
+        model = Clues
+
     all = MinigameFactory()
     beginner = MinigameFactory()
     easy = MinigameFactory()
@@ -67,10 +77,6 @@ class MinigamesFactory(factory.Factory):
     hard = MinigameFactory()
     elite = MinigameFactory()
     master = MinigameFactory()
-    lms = MinigameFactory()
-    pvp_arena = MinigameFactory()
-    soul_wars = MinigameFactory()
-    rifts_closed = MinigameFactory()
 
 
 class BossesFactory(factory.Factory):
@@ -141,4 +147,5 @@ class HiscoreFactory(factory.Factory):
     combat_level = factory.Faker("pyint", min_value=1, max_value=126)
     skills = SkillsFactory()
     minigames = MinigamesFactory()
+    clues = CluesFactory()
     bosses = BossesFactory()
