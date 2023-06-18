@@ -5,13 +5,14 @@ import httpx
 
 from .enums import (
     BOSSES_INDEX,
+    CLUES_INDEX,
     GAME_MODE,
     HISCORE_RESPONSE_LEN,
     MINIGAMES_INDEX,
     SKILLS_INDEX,
 )
 from .exceptions import InvalidAPIResponseException, InvalidUserException
-from .models import Bosses, Hiscore, Minigame, Minigames, Skill, Skills
+from .models import Bosses, Clues, Hiscore, Minigame, Minigames, Skill, Skills
 from .utils import calc_combat_level
 
 
@@ -65,6 +66,7 @@ class Pyosrs:
 
         skills: Dict[str, Skill] = {}
         minigames: Dict[str, Minigame] = {}
+        clues: Dict[str, Minigame] = {}
         bosses: Dict[str, Minigame] = {}
 
         if len(lines := response.text.splitlines()) != HISCORE_RESPONSE_LEN:
@@ -79,6 +81,9 @@ class Pyosrs:
             elif index in MINIGAMES_INDEX:
                 rank, score = map(int, line.split(","))
                 minigames[MINIGAMES_INDEX[index][0]] = Minigame(rank=rank, score=score)
+            elif index in CLUES_INDEX:
+                rank, score = map(int, line.split(","))
+                clues[CLUES_INDEX[index][0]] = Minigame(rank=rank, score=score)
             else:
                 rank, score = map(int, line.split(","))
                 bosses[BOSSES_INDEX[index][0]] = Minigame(rank=rank, score=score)
@@ -92,13 +97,13 @@ class Pyosrs:
             ranged=skills["ranged"].level,
             magic=skills["magic"].level,
         )
-
         return Hiscore(
             username=username,
             game_mode=game_mode,
             combat_level=combat_level,
             skills=Skills(**skills),
             minigames=Minigames(**minigames),
+            clues=Clues(**clues),
             bosses=Bosses(**bosses),
         )
 
