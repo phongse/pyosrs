@@ -54,13 +54,13 @@ class Minigames(BaseModel):
 
 
 class Clues(BaseModel):
-    all: Minigame = Minigame()
-    beginner: Minigame = Minigame()
-    easy: Minigame = Minigame()
-    medium: Minigame = Minigame()
-    hard: Minigame = Minigame()
-    elite: Minigame = Minigame()
-    master: Minigame = Minigame()
+    clue_scrolls_all: Minigame = Minigame()
+    clue_scrolls_beginner: Minigame = Minigame()
+    clue_scrolls_easy: Minigame = Minigame()
+    clue_scrolls_medium: Minigame = Minigame()
+    clue_scrolls_hard: Minigame = Minigame()
+    clue_scrolls_elite: Minigame = Minigame()
+    clue_scrolls_master: Minigame = Minigame()
 
 
 class Bosses(BaseModel):
