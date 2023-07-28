@@ -77,13 +77,13 @@ async def test_clues_hiscore():
             lynx_titan = await client.get_hiscore("Lynx Titan")
 
     assert lynx_titan.clues.dict() == {
-        "clue_scrolls_all": {"rank": 751176, "score": 22},
-        "clue_scrolls_beginner": {"rank": -1, "score": -1},
-        "clue_scrolls_easy": {"rank": -1, "score": -1},
-        "clue_scrolls_medium": {"rank": -1, "score": -1},
-        "clue_scrolls_hard": {"rank": 472813, "score": 22},
-        "clue_scrolls_elite": {"rank": -1, "score": -1},
-        "clue_scrolls_master": {"rank": -1, "score": -1},
+        "all": {"rank": 751176, "score": 22},
+        "beginner": {"rank": -1, "score": -1},
+        "easy": {"rank": -1, "score": -1},
+        "medium": {"rank": -1, "score": -1},
+        "hard": {"rank": 472813, "score": 22},
+        "elite": {"rank": -1, "score": -1},
+        "master": {"rank": -1, "score": -1},
     }
 
 
