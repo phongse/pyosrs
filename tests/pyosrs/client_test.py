@@ -21,7 +21,7 @@ async def test_get_hiscore():
             ),
             httpx.Response(
                 status_code=200,
-                text=testing.api_responses.SAMEPWEVRYWR_RESPONSE,
+                text=testing.api_responses.RIP_DIDDEBOY_RESPONSE,
             ),
         ]
     )
@@ -36,10 +36,10 @@ async def test_get_hiscore():
         async with Pyosrs() as client:
             hiscores = await asyncio.gather(
                 client.get_hiscore("Lynx Titan"),
-                client.get_hiscore("SamePwEvrywr"),
+                client.get_hiscore("rip Diddeboy"),
                 client.get_hiscore("Iron Hyger", GAME_MODE.IRONMAN),
             )
-            lynx_titan, samepwevrywr, iron_hyger = hiscores
+            lynx_titan, rip_diddeboy, iron_hyger = hiscores
 
         assert hiscore_mock["get_hiscore"].call_count == 2
         assert hiscore_mock["get_hiscore_ironman"].call_count == 1
@@ -51,9 +51,9 @@ async def test_get_hiscore():
     assert lynx_titan.skills.overall.experience == 4600000000
     assert lynx_titan.combat_level == 126
 
-    assert samepwevrywr is not None
-    assert samepwevrywr.username == "SamePwEvrywr"
-    assert samepwevrywr.combat_level == 1
+    assert rip_diddeboy is not None
+    assert rip_diddeboy.username == "rip Diddeboy"
+    assert rip_diddeboy.combat_level == 1
 
     assert iron_hyger is not None
     assert iron_hyger.username == "Iron Hyger"
@@ -77,11 +77,11 @@ async def test_clues_hiscore():
             lynx_titan = await client.get_hiscore("Lynx Titan")
 
     assert lynx_titan.clues.dict() == {
-        "all": {"rank": 751176, "score": 22},
+        "all": {"rank": 764633, "score": 22},
         "beginner": {"rank": -1, "score": -1},
         "easy": {"rank": -1, "score": -1},
         "medium": {"rank": -1, "score": -1},
-        "hard": {"rank": 472813, "score": 22},
+        "hard": {"rank": 480613, "score": 22},
         "elite": {"rank": -1, "score": -1},
         "master": {"rank": -1, "score": -1},
     }
