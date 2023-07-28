@@ -64,6 +64,30 @@ async def test_get_hiscore():
 
 
 @pytest.mark.asyncio
+async def test_clues_hiscore():
+    hiscore_mock["get_hiscore"].mock(
+        side_effect=[
+            httpx.Response(
+                status_code=200, text=testing.api_responses.LYNX_TITAN_RESPONSE
+            )
+        ]
+    )
+    async with hiscore_mock:
+        async with Pyosrs() as client:
+            lynx_titan = await client.get_hiscore("Lynx Titan")
+
+    assert lynx_titan.clues.dict() == {
+        "all": {"rank": 751176, "score": 22},
+        "beginner": {"rank": -1, "score": -1},
+        "easy": {"rank": -1, "score": -1},
+        "medium": {"rank": -1, "score": -1},
+        "hard": {"rank": 472813, "score": 22},
+        "elite": {"rank": -1, "score": -1},
+        "master": {"rank": -1, "score": -1},
+    }
+
+
+@pytest.mark.asyncio
 async def test_get_hiscore_with_invalid_username():
     async with hiscore_mock:
         hiscore_mock["get_hiscore"].mock(side_effect=[httpx.Response(status_code=404)])
