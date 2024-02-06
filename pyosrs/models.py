@@ -100,6 +100,7 @@ class Bosses(BaseModel):
     phantom_muspah: Minigame = Minigame()
     sarachnis: Minigame = Minigame()
     scorpia: Minigame = Minigame()
+    scurrius: Minigame = Minigame()
     skotizo: Minigame = Minigame()
     spindel: Minigame = Minigame()
     tempoross: Minigame = Minigame()
