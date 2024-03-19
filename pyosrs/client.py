@@ -2,16 +2,17 @@ import asyncio
 from typing import Dict, Tuple
 
 import httpx
+from httpx import Response
 
 from .enums import (
+    ACTIVITIES_INDEX,
     BOSSES_INDEX,
     CLUES_INDEX,
     GAME_MODE,
-    HISCORE_RESPONSE_LEN,
     MINIGAMES_INDEX,
     SKILLS_INDEX,
 )
-from .exceptions import InvalidAPIResponseException, InvalidUserException
+from .exceptions import InvalidUserException
 from .models import Bosses, Clues, Hiscore, Minigame, Minigames, Skill, Skills
 from .utils import calc_combat_level
 
@@ -22,6 +23,7 @@ class Pyosrs:
             base_url="https://secure.runescape.com/",
             timeout=5.0,
         )
+        self.activities_index = ACTIVITIES_INDEX
 
     async def __aenter__(self):
         await self.session.__aenter__()
@@ -34,7 +36,7 @@ class Pyosrs:
         self, username: str, game_mode: GAME_MODE = GAME_MODE.MAIN
     ) -> httpx.Response:
         response = await self.session.get(
-            f"m={game_mode.value}/index_lite.ws?player={username}"
+            f"m={game_mode.value}/index_lite.json?player={username}"
         )
         response.raise_for_status()
         return response
@@ -60,8 +62,10 @@ class Pyosrs:
         """
 
         try:
-            response = await self._get_hiscore(username, game_mode)
-        except httpx.HTTPStatusError:
+            response: Response = await self._get_hiscore(username, game_mode)
+        except httpx.HTTPStatusError as e:
+            print(e)
+
             raise InvalidUserException(username)
 
         skills: Dict[str, Skill] = {}
@@ -69,24 +73,34 @@ class Pyosrs:
         clues: Dict[str, Minigame] = {}
         bosses: Dict[str, Minigame] = {}
 
-        if len(lines := response.text.splitlines()) != HISCORE_RESPONSE_LEN:
-            raise InvalidAPIResponseException
+        json_response = response.json()
+        skills_response = json_response.get("skills")
+        activities_response = json_response.get("activities")
 
-        for index, line in enumerate(lines):
-            if index in SKILLS_INDEX:
-                rank, level, experience = map(int, line.split(","))
-                skills[SKILLS_INDEX[index][0]] = Skill(
-                    rank=rank, level=level, experience=experience
+        for skill in skills_response:
+            if skill["id"] in SKILLS_INDEX:
+                skills[SKILLS_INDEX[skill["id"]][0]] = Skill(
+                    rank=skill["rank"],
+                    level=skill["level"],
+                    experience=skill["xp"],
                 )
-            elif index in MINIGAMES_INDEX:
-                rank, score = map(int, line.split(","))
-                minigames[MINIGAMES_INDEX[index][0]] = Minigame(rank=rank, score=score)
-            elif index in CLUES_INDEX:
-                rank, score = map(int, line.split(","))
-                clues[CLUES_INDEX[index][0]] = Minigame(rank=rank, score=score)
-            else:
-                rank, score = map(int, line.split(","))
-                bosses[BOSSES_INDEX[index][0]] = Minigame(rank=rank, score=score)
+
+        for activity in activities_response:
+            if activity["id"] in MINIGAMES_INDEX:
+                minigames[MINIGAMES_INDEX[activity["id"]][0]] = Minigame(
+                    rank=activity["rank"],
+                    score=activity["score"],
+                )
+            elif activity["id"] in CLUES_INDEX:
+                clues[CLUES_INDEX[activity["id"]][0]] = Minigame(
+                    rank=activity["rank"],
+                    score=activity["score"],
+                )
+            elif activity["id"] in BOSSES_INDEX:
+                bosses[BOSSES_INDEX[activity["id"]][0]] = Minigame(
+                    rank=activity["rank"],
+                    score=activity["score"],
+                )
 
         combat_level = calc_combat_level(
             defence=skills["defence"].level,
@@ -97,6 +111,7 @@ class Pyosrs:
             ranged=skills["ranged"].level,
             magic=skills["magic"].level,
         )
+
         return Hiscore(
             username=username,
             game_mode=game_mode,

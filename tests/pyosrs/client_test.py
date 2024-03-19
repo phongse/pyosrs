@@ -7,7 +7,7 @@ import pytest
 import testing.api_responses
 from pyosrs.client import Pyosrs
 from pyosrs.enums import GAME_MODE
-from pyosrs.exceptions import InvalidAPIResponseException, InvalidUserException
+from pyosrs.exceptions import InvalidUserException
 from testing.factories import HiscoreFactory, SkillFactory, SkillsFactory
 from testing.mocks import hiscore_mock
 
@@ -17,18 +17,18 @@ async def test_get_hiscore():
     hiscore_mock["get_hiscore"].mock(
         side_effect=[
             httpx.Response(
-                status_code=200, text=testing.api_responses.LYNX_TITAN_RESPONSE
+                status_code=200, json=testing.api_responses.LYNX_TITAN_RESPONSE
             ),
             httpx.Response(
                 status_code=200,
-                text=testing.api_responses.RIP_DIDDEBOY_RESPONSE,
+                json=testing.api_responses.RIP_DIDDEBOY_RESPONSE,
             ),
         ]
     )
     hiscore_mock["get_hiscore_ironman"].mock(
         side_effect=[
             httpx.Response(
-                status_code=200, text=testing.api_responses.IRON_HYGER_RESPONSE
+                status_code=200, json=testing.api_responses.IRON_HYGER_RESPONSE
             )
         ]
     )
@@ -68,7 +68,7 @@ async def test_clues_hiscore():
     hiscore_mock["get_hiscore"].mock(
         side_effect=[
             httpx.Response(
-                status_code=200, text=testing.api_responses.LYNX_TITAN_RESPONSE
+                status_code=200, json=testing.api_responses.LYNX_TITAN_RESPONSE
             )
         ]
     )
@@ -76,15 +76,15 @@ async def test_clues_hiscore():
         async with Pyosrs() as client:
             lynx_titan = await client.get_hiscore("Lynx Titan")
 
-    assert lynx_titan.clues.dict() == {
-        "all": {"rank": 764633, "score": 22},
-        "beginner": {"rank": -1, "score": -1},
-        "easy": {"rank": -1, "score": -1},
-        "medium": {"rank": -1, "score": -1},
-        "hard": {"rank": 480613, "score": 22},
-        "elite": {"rank": -1, "score": -1},
-        "master": {"rank": -1, "score": -1},
-    }
+        assert lynx_titan.clues.dict() == {
+            "all": {"rank": 818747, "score": 22},
+            "beginner": {"rank": -1, "score": -1},
+            "easy": {"rank": -1, "score": -1},
+            "medium": {"rank": -1, "score": -1},
+            "hard": {"rank": 509645, "score": 22},
+            "elite": {"rank": -1, "score": -1},
+            "master": {"rank": -1, "score": -1},
+        }
 
 
 @pytest.mark.asyncio
@@ -94,23 +94,6 @@ async def test_get_hiscore_with_invalid_username():
         async with Pyosrs() as client:
             with pytest.raises(InvalidUserException):
                 await client.get_hiscore("invalid username")
-
-        assert hiscore_mock["get_hiscore"].called
-
-
-@pytest.mark.asyncio
-async def test_get_hiscore_with_new_skill():
-    async with hiscore_mock:
-        hiscore_mock["get_hiscore"].mock(
-            side_effect=[
-                httpx.Response(
-                    status_code=200, text=testing.api_responses.NEW_SKILL_RESPONSE
-                )
-            ]
-        )
-        async with Pyosrs() as client:
-            with pytest.raises(InvalidAPIResponseException):
-                await client.get_hiscore("invalid API response")
 
         assert hiscore_mock["get_hiscore"].called
 

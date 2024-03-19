@@ -36,7 +36,7 @@ class Skills(BaseModel):
     thieving: Skill = Skill()
     slayer: Skill = Skill()
     farming: Skill = Skill()
-    runecrafting: Skill = Skill()
+    runecraft: Skill = Skill()
     hunter: Skill = Skill()
     construction: Skill = Skill()
 
