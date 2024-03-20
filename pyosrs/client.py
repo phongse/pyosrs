@@ -11,7 +11,7 @@ from .enums import (
     MINIGAMES_INDEX,
     SKILLS_INDEX,
 )
-from .exceptions import InvalidUserException
+from .exceptions import InvalidAPIResponseException, InvalidUserException
 from .models import Bosses, Clues, Hiscore, Minigame, Minigames, Skill, Skills
 from .utils import calc_combat_level
 
@@ -97,6 +97,8 @@ class Pyosrs:
                     rank=activity["rank"],
                     score=activity["score"],
                 )
+            else:
+                raise InvalidAPIResponseException()
 
         combat_level = calc_combat_level(
             defence=skills["defence"].level,

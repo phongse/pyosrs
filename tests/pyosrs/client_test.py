@@ -7,7 +7,7 @@ import pytest
 import testing.api_responses
 from pyosrs.client import Pyosrs
 from pyosrs.enums import GAME_MODE
-from pyosrs.exceptions import InvalidUserException
+from pyosrs.exceptions import InvalidAPIResponseException, InvalidUserException
 from testing.factories import HiscoreFactory, SkillFactory, SkillsFactory
 from testing.mocks import hiscore_mock
 
@@ -77,11 +77,11 @@ async def test_clues_hiscore():
             lynx_titan = await client.get_hiscore("Lynx Titan")
 
         assert lynx_titan.clues.dict() == {
-            "all": {"rank": 818747, "score": 22},
+            "all": {"rank": 832280, "score": 22},
             "beginner": {"rank": -1, "score": -1},
             "easy": {"rank": -1, "score": -1},
             "medium": {"rank": -1, "score": -1},
-            "hard": {"rank": 509645, "score": 22},
+            "hard": {"rank": 517041, "score": 22},
             "elite": {"rank": -1, "score": -1},
             "master": {"rank": -1, "score": -1},
         }
@@ -94,6 +94,24 @@ async def test_get_hiscore_with_invalid_username():
         async with Pyosrs() as client:
             with pytest.raises(InvalidUserException):
                 await client.get_hiscore("invalid username")
+
+        assert hiscore_mock["get_hiscore"].called
+
+
+@pytest.mark.asyncio
+async def test_get_hiscore_with_new_skill_or_activity():
+    async with hiscore_mock:
+        hiscore_mock["get_hiscore"].mock(
+            side_effect=[
+                httpx.Response(
+                    status_code=200,
+                    json=testing.api_responses.NEW_SKILL_OR_ACTIVITY_RESPONSE,
+                )
+            ]
+        )
+        async with Pyosrs() as client:
+            with pytest.raises(InvalidAPIResponseException):
+                await client.get_hiscore("invalid API response")
 
         assert hiscore_mock["get_hiscore"].called
 
