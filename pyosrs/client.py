@@ -5,7 +5,6 @@ import httpx
 from httpx import Response
 
 from .enums import (
-    ACTIVITIES_INDEX,
     BOSSES_INDEX,
     CLUES_INDEX,
     GAME_MODE,
@@ -23,7 +22,6 @@ class Pyosrs:
             base_url="https://secure.runescape.com/",
             timeout=5.0,
         )
-        self.activities_index = ACTIVITIES_INDEX
 
     async def __aenter__(self):
         await self.session.__aenter__()
@@ -63,9 +61,7 @@ class Pyosrs:
 
         try:
             response: Response = await self._get_hiscore(username, game_mode)
-        except httpx.HTTPStatusError as e:
-            print(e)
-
+        except httpx.HTTPStatusError:
             raise InvalidUserException(username)
 
         skills: Dict[str, Skill] = {}
