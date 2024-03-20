@@ -51,6 +51,7 @@ MINIGAMES_INDEX: Final[Dict[int, Tuple[str, str]]] = {
     14: ("pvp_arena", "PvP Arena"),
     15: ("soul_wars", "Soul Wars Zeal"),
     16: ("rifts_closed", "Rifts Closed"),
+    17: ("colosseum_glory", "Colosseum Glory"),
 }
 
 CLUES_INDEX: Final[Dict[int, Tuple[str, str]]] = {
@@ -64,7 +65,6 @@ CLUES_INDEX: Final[Dict[int, Tuple[str, str]]] = {
 }
 
 BOSSES_INDEX: Final[Dict[int, Tuple[str, str]]] = {
-    17: ("collosseum_glory", "Colosseum Glory"),
     18: ("abyssal_sire", "Abyssal Sire"),
     19: ("alchemical_hydra", "Alchemical Hydra"),
     20: ("artio", "Artio"),
