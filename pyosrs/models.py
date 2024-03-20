@@ -42,6 +42,7 @@ class Skills(BaseModel):
 
 
 class Minigames(BaseModel):
+    colosseum_glory: Minigame = Minigame()
     league_points: Minigame = Minigame()
     bounty_hunter_hunter: Minigame = Minigame()
     bounty_hunter_rogue: Minigame = Minigame()
@@ -92,6 +93,7 @@ class Bosses(BaseModel):
     kraken: Minigame = Minigame()
     kree_arra: Minigame = Minigame()
     kril_tsutsaroth: Minigame = Minigame()
+    lunar_chests: Minigame = Minigame()
     mimic: Minigame = Minigame()
     nex: Minigame = Minigame()
     nightmare: Minigame = Minigame()
@@ -102,6 +104,7 @@ class Bosses(BaseModel):
     scorpia: Minigame = Minigame()
     scurrius: Minigame = Minigame()
     skotizo: Minigame = Minigame()
+    sol_heredit: Minigame = Minigame()
     spindel: Minigame = Minigame()
     tempoross: Minigame = Minigame()
     the_gauntlet: Minigame = Minigame()
