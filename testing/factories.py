@@ -55,6 +55,7 @@ class MinigamesFactory(factory.Factory):
     class Meta:
         model = Minigames
 
+    colosseum_glory = MinigameFactory()
     league_points = MinigameFactory()
     bounty_hunter_hunter = MinigameFactory()
     bounty_hunter_rogue = MinigameFactory()
@@ -110,6 +111,7 @@ class BossesFactory(factory.Factory):
     kraken = MinigameFactory()
     kree_arra = MinigameFactory()
     kril_tsutsaroth = MinigameFactory()
+    lunar_chests = MinigameFactory()
     mimic = MinigameFactory()
     nex = MinigameFactory()
     nightmare = MinigameFactory()
@@ -120,6 +122,7 @@ class BossesFactory(factory.Factory):
     scorpia = MinigameFactory()
     scurrius: MinigameFactory()
     skotizo = MinigameFactory()
+    sol_heredit = MinigameFactory()
     spindel = MinigameFactory()
     tempoross = MinigameFactory()
     the_gauntlet = MinigameFactory()
