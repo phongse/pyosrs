@@ -9,6 +9,11 @@ from pyosrs.client import Pyosrs
 from pyosrs.enums import GAME_MODE
 from pyosrs.exceptions import InvalidAPIResponseException, InvalidUserException
 from testing.factories import HiscoreFactory, SkillFactory, SkillsFactory
+from testing.fixtures import (
+    IRON_HYGER_BOSSES_FIXTURE,
+    IRON_HYGER_CLUES_FIXTURE,
+    IRON_HYGER_MINIGAMES_FIXTURE,
+)
 from testing.mocks import hiscore_mock
 
 
@@ -64,6 +69,37 @@ async def test_get_hiscore():
 
 
 @pytest.mark.asyncio
+async def test_minigame_hiscore():
+    hiscore_mock["get_hiscore_ironman"].mock(
+        side_effect=[
+            httpx.Response(
+                status_code=200, json=testing.api_responses.IRON_HYGER_RESPONSE
+            )
+        ]
+    )
+    async with hiscore_mock:
+        async with Pyosrs() as client:
+            iron_hyger = await client.get_hiscore("Iron Hyger", GAME_MODE.IRONMAN)
+
+        assert iron_hyger.minigames.dict() == IRON_HYGER_MINIGAMES_FIXTURE
+
+
+@pytest.mark.asyncio
+async def test_boss_hiscore():
+    hiscore_mock["get_hiscore_ironman"].mock(
+        side_effect=[
+            httpx.Response(
+                status_code=200, json=testing.api_responses.IRON_HYGER_RESPONSE
+            )
+        ]
+    )
+    async with hiscore_mock:
+        async with Pyosrs() as client:
+            iron_hyger = await client.get_hiscore("Iron Hyger", GAME_MODE.IRONMAN)
+            assert iron_hyger.bosses.dict() == IRON_HYGER_BOSSES_FIXTURE
+
+
+@pytest.mark.asyncio
 async def test_clues_hiscore():
     hiscore_mock["get_hiscore"].mock(
         side_effect=[
@@ -76,15 +112,7 @@ async def test_clues_hiscore():
         async with Pyosrs() as client:
             lynx_titan = await client.get_hiscore("Lynx Titan")
 
-        assert lynx_titan.clues.dict() == {
-            "all": {"rank": 832280, "score": 22},
-            "beginner": {"rank": -1, "score": -1},
-            "easy": {"rank": -1, "score": -1},
-            "medium": {"rank": -1, "score": -1},
-            "hard": {"rank": 517041, "score": 22},
-            "elite": {"rank": -1, "score": -1},
-            "master": {"rank": -1, "score": -1},
-        }
+        assert lynx_titan.clues.dict() == IRON_HYGER_CLUES_FIXTURE
 
 
 @pytest.mark.asyncio
