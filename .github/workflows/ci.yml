@@ -1,60 +1,55 @@
-name: ci
+name: CI
 
 on:
   pull_request:
-    branches: ["main"]
+    branches: ["main", "0.1.x"]
+  push:
+    branches: ["main", "0.1.x"]
 
 jobs:
-  linting:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-      - uses: pre-commit/action@v3.0.0
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v7
+      - run: uv sync
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run ty check src/pyosrs/
 
   test:
-    needs: linting
+    needs: lint
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
-    runs-on: ["ubuntu-latest"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        os: [ubuntu-latest]
+        include:
+          - python-version: "3.14"
+            coverage: true
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-
-      - name: Set up python ${{ matrix.python-version }}
-        id: setup-python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          installer-parallel: true
-
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
-
       - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --with dev
-
-      - name: Run mypy
+        run: uv sync
+      - name: Run tests
         run: |
-          poetry run mypy .
+          uv run coverage run -m pytest tests/
+          uv run coverage report --fail-under=100
+      - name: Upload coverage
+        uses: codecov/codecov-action@v5
+        if: matrix.coverage
 
-      - name: Run pytest
-        run: |
-          poetry run coverage run --branch -m pytest tests/
-
-      - name: Check coverage
-        run: |
-          poetry run coverage report --show-missing --fail-under=100 --skip-covered --skip-empty
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v7
+      - run: uv sync
+      - name: Check for vulnerabilities
+        run: uv run pip-audit
+      - name: Security lint
+        run: uv run bandit -r src/pyosrs/ -ll
