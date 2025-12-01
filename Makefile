@@ -1,20 +1,23 @@
-.PHONY: test mypy format clean
+.PHONY: install test lint format typecheck check clean
 
-clean:
-	@rm -rf .mypy_cache/ .pytest_cache/ __pycache__/
-	@poetry run coverage erase
-
-format:
-	@poetry run black .
-
-mypy:
-	@poetry run mypy .
-
-precommit:
-	@poetry run pre-commit install
-	@poetry run pre-commit run --all-files
+install:
+	uv sync
 
 test:
-	@poetry run coverage erase
-	@poetry run coverage run --branch -m pytest tests/
-	@poetry run coverage report --show-missing --fail-under=100 --skip-covered --skip-empty
+	uv run coverage erase
+	uv run coverage run --branch -m pytest tests/
+	uv run coverage report --show-missing --fail-under=100
+
+lint:
+	uv run ruff check .
+
+format:
+	uv run ruff format .
+
+typecheck:
+	uv run ty check src/pyosrs/
+
+check: lint typecheck test
+
+clean:
+	rm -rf .pytest_cache/ .coverage src/__pycache__/ dist/ .ruff_cache/
