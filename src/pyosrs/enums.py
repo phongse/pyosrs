@@ -3,14 +3,14 @@ from typing import Dict, Final, Tuple
 
 
 class GAME_MODE(Enum):
-    MAIN: str = "hiscore_oldschool"
-    IRONMAN: str = "hiscore_oldschool_ironman"
-    HARDCORE: str = "hiscore_oldschool_hardcore_ironman"
-    ULTIMATE: str = "hiscore_oldschool_ultimate"
-    DEADMAN: str = "hiscore_oldschool_deadman"
-    SEASONAL: str = "hiscore_oldschool_seasonal"
-    TOURNAMENT: str = "hiscore_oldschool_tournament"
-    FRESH_START: str = "hiscore_oldschool_fresh_start"
+    MAIN = "hiscore_oldschool"
+    IRONMAN = "hiscore_oldschool_ironman"
+    HARDCORE = "hiscore_oldschool_hardcore_ironman"
+    ULTIMATE = "hiscore_oldschool_ultimate"
+    DEADMAN = "hiscore_oldschool_deadman"
+    SEASONAL = "hiscore_oldschool_seasonal"
+    TOURNAMENT = "hiscore_oldschool_tournament"
+    FRESH_START = "hiscore_oldschool_fresh_start"
 
 
 SKILLS_INDEX: Final[Dict[int, Tuple[str, str]]] = {
